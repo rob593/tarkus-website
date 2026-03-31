@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TARKUS — UAS Tactical Training and Simulation</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700&family=Barlow:wght@300;400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0A0F1C;
+    --navy-mid: #111827;
+    --navy-light: #1E2A3A;
+    --slate: #2E3F55;
+    --amber: #C8922A;
+    --amber-light: #E0A83A;
+    --white: #F4F2EC;
+    --off-white: #D8D4CC;
+    --muted: #8A9AAB;
+    --rule: rgba(200,146,42,0.3);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--navy);
+    font-family: 'Barlow', sans-serif;
+    color: var(--white);
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .content-wrap {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ── HERO / COVER ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 80%, rgba(200,146,42,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-image-top {
+    width: 100%;
+    max-width: 960px;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 48px;
+    position: relative;
+  }
+
+  .hero-image-top img {
+    width: 100%;
+    display: block;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+  }
+
+  .hero-brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 48px;
+    position: relative;
+  }
+
+  .hero-logo {
+    width: 420px;
+    max-width: 80vw;
+  }
+
+  .hero-tagline {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 300;
+    font-size: 16pt;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  .hero-tagline strong {
+    font-weight: 500;
+    color: var(--off-white);
+  }
+
+  .hero-image-bottom {
+    width: 100%;
+    max-width: 960px;
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .hero-image-bottom img {
+    width: 100%;
+    display: block;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+  }
+
+  /* ── SECTION COMMON ── */
+  .section {
+    padding: 80px 0;
+    position: relative;
+  }
+
+  .section + .section {
+    border-top: 1px solid var(--rule);
+  }
+
+  .section-eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--amber);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: clamp(28px, 5vw, 42px);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--white);
+    margin-bottom: 20px;
+    line-height: 1.1;
+  }
+
+  .section-title em {
+    color: var(--amber);
+    font-style: normal;
+  }
+
+  .section-intro {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--off-white);
+    max-width: 720px;
+    margin-bottom: 40px;
+    font-weight: 300;
+  }
+
+  .amber-divider {
+    width: 60px;
+    height: 2px;
+    background: var(--amber);
+    margin-bottom: 32px;
+  }
+
+  /* ── STATS ── */
+  .stats-row {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+
+  .stat-block {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .stat-number {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 36px;
+    color: var(--amber);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .stat-pipe {
+    width: 1px;
+    background: var(--rule);
+    align-self: stretch;
+  }
+
+  /* ── USP BLOCK ── */
+  .usp-block {
+    background: rgba(200,146,42,0.07);
+    border-left: 3px solid var(--amber);
+    padding: 24px 28px;
+    margin-bottom: 48px;
+  }
+
+  .usp-block p {
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--off-white);
+  }
+
+  .usp-block strong {
+    font-weight: 500;
+    color: var(--white);
+  }
+
+  /* ── IMAGE STRIPS ── */
+  .image-strip {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 48px;
+  }
+
+  .image-strip.triple {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  .image-strip img {
+    width: 100%;
+    display: block;
+    border-radius: 3px;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+  }
+
+  .image-full {
+    margin-bottom: 48px;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .image-full img {
+    width: 100%;
+    display: block;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+  }
+
+  /* ── CAPABILITY GRID ── */
+  .capability-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+
+  .cap-card {
+    background: var(--navy-light);
+    border-top: 2px solid var(--amber);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .cap-card-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    color: var(--amber);
+    text-transform: uppercase;
+  }
+
+  .cap-card-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+    color: var(--white);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    line-height: 1.15;
+  }
+
+  .cap-card-body {
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--off-white);
+    font-weight: 300;
+  }
+
+  /* ── SPEC BLOCKS ── */
+  .spec-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .tech-spec-block {
+    background: rgba(10,15,28,0.6);
+    border: 1px solid rgba(200,146,42,0.2);
+    padding: 24px;
+  }
+
+  .spec-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--white);
+    margin-bottom: 14px;
+  }
+
+  .spec-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .spec-list li {
+    font-size: 14px;
+    color: var(--off-white);
+    font-weight: 300;
+    line-height: 1.5;
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+  }
+
+  .spec-list li::before {
+    content: '—';
+    color: var(--amber);
+    flex-shrink: 0;
+  }
+
+  /* ── ROADMAP ── */
+  .roadmap-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 48px;
+  }
+
+  .phase-block {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: relative;
+  }
+
+  .phase-number {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--amber);
+    text-transform: uppercase;
+  }
+
+  .phase-timeframe {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    color: var(--white);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    line-height: 1.15;
+  }
+
+  .phase-subtitle {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--amber-light);
+  }
+
+  .phase-body {
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--off-white);
+    font-weight: 300;
+  }
+
+  /* ── VALIDATION QUOTE ── */
+  .validation-block {
+    background: var(--navy-light);
+    border-left: 3px solid var(--amber);
+    padding: 28px 32px;
+    margin-bottom: 48px;
+  }
+
+  .validation-quote {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 1.5;
+    color: var(--white);
+    margin-bottom: 12px;
+    font-style: italic;
+  }
+
+  .validation-source {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+
+  /* ── CTA / CONTACT ── */
+  .cta-row {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 24px;
+    margin-bottom: 48px;
+  }
+
+  .cta-block {
+    background: rgba(200,146,42,0.1);
+    border: 1px solid rgba(200,146,42,0.35);
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .cta-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--white);
+  }
+
+  .cta-body {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--off-white);
+    font-weight: 300;
+  }
+
+  .cta-ask {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--amber);
+    line-height: 1.6;
+    border-top: 1px solid var(--rule);
+    padding-top: 16px;
+  }
+
+  .contact-block {
+    background: var(--navy-mid);
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .contact-item {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .contact-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .contact-value {
+    font-size: 14px;
+    color: var(--white);
+    font-weight: 400;
+  }
+
+  .contact-value a {
+    color: var(--amber-light);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .contact-value a:hover {
+    color: var(--white);
+  }
+
+  .contact-divider {
+    height: 1px;
+    background: rgba(255,255,255,0.06);
+  }
+
+  /* ── SITE FOOTER ── */
+  .site-footer {
+    border-top: 1px solid var(--rule);
+    padding: 40px 0 48px;
+    text-align: center;
+  }
+
+  .footer-logo {
+    width: 160px;
+    margin-bottom: 20px;
+    opacity: 0.6;
+  }
+
+  .footer-contact-email {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+    letter-spacing: 0.06em;
+    margin-bottom: 12px;
+  }
+
+  .footer-contact-email a {
+    color: var(--amber-light);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-contact-email a:hover {
+    color: var(--white);
+  }
+
+  .footer-meta {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .capability-grid,
+    .spec-row,
+    .cta-row {
+      grid-template-columns: 1fr;
+    }
+
+    .roadmap-row {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+
+    .image-strip {
+      grid-template-columns: 1fr;
+    }
+
+    .image-strip.triple {
+      grid-template-columns: 1fr;
+    }
+
+    .stats-row {
+      gap: 24px;
+    }
+
+    .hero-logo {
+      width: 280px;
+    }
+
+    .section {
+      padding: 56px 0;
+    }
+  }
+
+  /* ── FADE IN ANIMATION ── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════
+     HERO
+═══════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-image-top fade-in">
+    <img src="images/screenshot_radar_industrial.jpg" alt="TARKUS — Identify and prosecute radar mission over industrial terrain">
+  </div>
+
+  <div class="hero-brand fade-in">
+    <img class="hero-logo" src="images/logo_tarkus_text.png" alt="TARKUS">
+    <div class="hero-tagline"><strong>UAS</strong> Tactical Training and Simulation</div>
+  </div>
+
+  <div class="hero-image-bottom fade-in">
+    <img src="images/screenshot_bombers_airfield.jpg" alt="TARKUS — Clear bombers at airfield mission">
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     WE ENABLE THE TRAINER
+═══════════════════════════════════════════════ -->
+<section class="section">
+  <div class="content-wrap">
+    <div class="section-eyebrow fade-in">Synthetic Training Environment &nbsp;|&nbsp; Defence Grade</div>
+    <div class="section-title fade-in">We Enable<br><em>the Trainer.</em></div>
+    <div class="section-intro fade-in">
+      TARKUS is a highly adaptable, defence-grade synthetic training environment for rapid manual FPV operator force-generation today — and the validated simulation foundation for autonomous systems tomorrow.
+    </div>
+
+    <div class="amber-divider fade-in"></div>
+
+    <div class="stats-row fade-in">
+      <div class="stat-block">
+        <div class="stat-number">12,500+</div>
+        <div class="stat-label">Commercial units sold</div>
+      </div>
+      <div class="stat-pipe"></div>
+      <div class="stat-block">
+        <div class="stat-number">100%</div>
+        <div class="stat-label">Air-gapped / offline</div>
+      </div>
+      <div class="stat-pipe"></div>
+      <div class="stat-block">
+        <div class="stat-number">Min-Spec</div>
+        <div class="stat-label">Austere environment operable</div>
+      </div>
+    </div>
+
+    <div class="usp-block fade-in">
+      <p>
+        Built on a proprietary physics engine with <strong>hundreds of thousands of validated human-in-the-loop flight hours</strong>, TARKUS delivers reactive FPV micro-physics indistinguishable from live hardware — paired with tactical Electronic Warfare simulation, real-time telemetry, and After Action Review. TARKUS is not a curriculum. It is an adaptable capability engine, built to meet any unmet training need a military instructor defines.
+      </p>
+    </div>
+
+    <div class="image-strip fade-in">
+      <img src="images/screenshot_jammer_drone.jpg" alt="Prosecute jammer with fibre optic drone">
+      <img src="images/screenshot_map_usv.jpg" alt="TARKUS tactical map with USV assets">
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     CORE CAPABILITIES
+═══════════════════════════════════════════════ -->
+<section class="section">
+  <div class="content-wrap">
+    <div class="section-eyebrow fade-in">Synthetic Training for the Operational Edge</div>
+    <div class="section-title fade-in">Purpose-Built.<br>Operator-Ready.</div>
+    <div class="section-intro fade-in">
+      TARKUS is engineered for front-line conditions: air-gapped architecture for full OPSEC compliance, min-spec hardware compatibility for austere deployment, and a fully configurable instructor console that adapts the training environment in real time. Every session generates structured telemetry — not scores, not statistics — that feeds performance benchmarking, scenario planning, and long-term operator assessment.
+    </div>
+
+    <div class="image-full fade-in">
+      <img src="images/screenshot_fpv_base.jpg" alt="TARKUS FPV drone flying over base">
+    </div>
+
+    <div class="capability-grid fade-in">
+      <div class="cap-card">
+        <div class="cap-card-label">01 · Command Console</div>
+        <div class="cap-card-title">Dynamic Scenario Control</div>
+        <div class="cap-card-body">
+          Real-time injection of weather conditions, hardware fault states, and Electronic Warfare degradation. Instructors shape the training environment without interrupting the session. Supports full EW jamming simulation including signal-to-noise modelling across frequency bands, Fresnel zone diffraction, and variable jammer geometry — replicating vehicle-mounted and fixed-position EW threats at accurate J/S ratios.
+        </div>
+      </div>
+
+      <div class="cap-card">
+        <div class="cap-card-label">02 · Air-Gapped Architecture</div>
+        <div class="cap-card-title">Secure Offline Deployment</div>
+        <div class="cap-card-body">
+          TARKUS operates with zero network dependency. All data — operator telemetry, scenario libraries, AAR recordings — persists locally. No cloud login, no external authentication, no data egress. Designed from the ground up for classified environments and forward-deployed locations where OPSEC requirements are non-negotiable. Runs on commercial off-the-shelf hardware including min-specification laptops.
+        </div>
+      </div>
+
+      <div class="cap-card">
+        <div class="cap-card-label">03 · Telemetry & AAR</div>
+        <div class="cap-card-title">After Action Review Suite</div>
+        <div class="cap-card-body">
+          Every training session generates structured telemetry: flight path data, response latency, signal degradation events, engagement decisions. Full 3D forensic replay allows instructor-led post-mission analysis. Performance benchmarks are exportable for integration into wider operator assessment frameworks, supporting the NATO standard reporting cadence expected by UK Army and allied force training commands.
+        </div>
+      </div>
+
+      <div class="cap-card">
+        <div class="cap-card-label">04 · Physics Fidelity</div>
+        <div class="cap-card-title">Validated UAS Micro-Physics</div>
+        <div class="cap-card-body">
+          The TARKUS physics engine models orientation-dependent drag, propeller disc dynamics, motor torque, gyroscopic precession, and ground effect — validated against real-world UAS empirical data. Terminal velocity, free-fall acceleration, and aerodynamic behaviour match live hardware to within accepted simulation margins. Operators trained in TARKUS transition to live platforms with demonstrably reduced time-to-competency.
+        </div>
+      </div>
+    </div>
+
+    <div class="image-strip fade-in">
+      <img src="images/screenshot_radar_village.jpg" alt="Identify and prosecute radar in village environment">
+      <img src="images/screenshot_fpv_mountains.jpg" alt="FPV drone flight over mountainous terrain">
+    </div>
+
+    <div class="spec-row fade-in">
+      <div class="tech-spec-block">
+        <div class="spec-title">Scenario Planning & Data Ingestion</div>
+        <ul class="spec-list">
+          <li>Drone hardware parameters ingested via OEM specification import</li>
+          <li>Geographic and mapping data ingestion for custom synthetic ground-truth</li>
+          <li>Configurable network data environments for interoperability exercises</li>
+          <li>Scenario library built from real operational patterns; fully instructor-editable</li>
+          <li>European OEM partnership pipeline: drone hardware profiles continuously expanded</li>
+        </ul>
+      </div>
+      <div class="tech-spec-block">
+        <div class="spec-title">Deployment Profile</div>
+        <ul class="spec-list">
+          <li>Min-spec COTS hardware — no proprietary rig required</li>
+          <li>UAS controller support: standard radio hardware input</li>
+          <li>Instructor and operator stations operate independently</li>
+          <li>No internet or cloud dependency at any stage</li>
+          <li>DIS / HLA network interoperability (Phase 2 roadmap)</li>
+          <li>Configurable for single-operator or networked data environments</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     DEVELOPMENT ROADMAP & ENGAGEMENT
+═══════════════════════════════════════════════ -->
+<section class="section">
+  <div class="content-wrap">
+    <div class="section-eyebrow fade-in">From Manual Operators to Autonomous Systems</div>
+    <div class="section-title fade-in">The Bridge Between<br>Human Proficiency &amp; Machine Intelligence</div>
+
+    <div class="image-strip triple fade-in">
+      <img src="images/screenshot_fpv_base.jpg" alt="FPV drone over base">
+      <img src="images/screenshot_tarkus_menu.jpg" alt="TARKUS main menu with drone on workbench">
+      <img src="images/screenshot_radar_targets.jpg" alt="Identify and prosecute radar with multiple targets">
+    </div>
+
+    <div class="section-intro fade-in">
+      The immediate priority is human force generation — rapidly scaling manual operator proficiency at a fraction of legacy system cost. The strategic intent is broader. TARKUS's accumulating database of human flight hours represents the highest-fidelity training resource available for the autonomous systems that follow. Human training today is the validation for autonomous delivery tomorrow.
+    </div>
+
+    <div class="roadmap-row fade-in">
+      <div class="phase-block">
+        <div class="phase-number">Phase 01</div>
+        <div class="phase-timeframe">Pilot Selection</div>
+        <div class="phase-subtitle">Candidate Assessment & Baseline</div>
+        <div class="phase-body">TARKUS establishes a structured synthetic assessment environment to identify and select candidates with the aptitude for UAS operation. Baseline flight proficiency, spatial awareness, and response under simulated EW degradation are measured and benchmarked before formal training begins.</div>
+      </div>
+
+      <div class="phase-block">
+        <div class="phase-number">Phase 02</div>
+        <div class="phase-timeframe">Full Operator Training</div>
+        <div class="phase-subtitle">Structured Proficiency Programme</div>
+        <div class="phase-body">Operators progress through a full instructor-led training curriculum: platform familiarisation, tactical manoeuvre, EW signal degradation response, and live scenario exercises. Performance telemetry is captured throughout, with After Action Review driving continuous improvement and formal sign-off against defined competency benchmarks.</div>
+      </div>
+
+      <div class="phase-block">
+        <div class="phase-number">Phase 03</div>
+        <div class="phase-timeframe">Reinforcement & Rehearsal</div>
+        <div class="phase-subtitle">Independent Mission Practice</div>
+        <div class="phase-body">Once trained, operators continue to sharpen proficiency independently — repeating mission scenarios, rehearsing upcoming operations, and stress-testing decision-making under varied conditions. TARKUS serves as a persistent training resource that operators return to throughout their deployment cycle, not just during formal instruction.</div>
+      </div>
+    </div>
+
+    <div class="validation-block fade-in">
+      <div class="validation-quote">"Our human operators are our validation. Because our physics are sufficiently accurate that real-world pilots use TARKUS to train, operators that complete the programme will be ready to deploy on live hardware from day one."</div>
+      <div class="validation-source">TARKUS Positioning Statement &nbsp;·&nbsp; TARKUS Simulation</div>
+    </div>
+
+    <div class="image-full fade-in">
+      <img src="images/screenshot_port_ship.jpg" alt="TARKUS simulation — port with LNG carrier">
+    </div>
+
+    <div class="cta-row fade-in">
+      <div class="cta-block">
+        <div class="cta-title">Next Step: Technical Follow-Up</div>
+        <div class="cta-body">
+          TARKUS is available for targeted capability demonstration to qualifying units and procurement authorities. We are seeking a Customer Zero partner for a structured training exercise — identifying a specific operational capability gap, designing a TARKUS scenario to address it, and delivering a measurable outcome. Demonstrations are conducted in secure, air-gapped environments using the unit's own hardware where required.
+        </div>
+        <div class="cta-ask">
+          OPENING QUESTION:<br>
+          "How are you currently simulating EW signal degradation for your operators and AI models?"
+        </div>
+      </div>
+
+      <div class="contact-block">
+        <div class="contact-item">
+          <div class="contact-label">Product</div>
+          <div class="contact-value">TARKUS Synthetic Training Environment</div>
+        </div>
+        <div class="contact-divider"></div>
+        <div class="contact-item">
+          <div class="contact-label">Developer</div>
+          <div class="contact-value">TARKUS Simulation</div>
+        </div>
+        <div class="contact-divider"></div>
+        <div class="contact-item">
+          <div class="contact-label">Location</div>
+          <div class="contact-value">Falmouth, Cornwall, United Kingdom</div>
+        </div>
+        <div class="contact-divider"></div>
+        <div class="contact-item">
+          <div class="contact-label">Web</div>
+          <div class="contact-value"><a href="https://tarkussimulation.com" target="_blank">tarkussimulation.com</a></div>
+        </div>
+        <div class="contact-divider"></div>
+        <div class="contact-item">
+          <div class="contact-label">Email</div>
+          <div class="contact-value"><a href="mailto:info@tarkussimulation.com">info@tarkussimulation.com</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     SITE FOOTER
+═══════════════════════════════════════════════ -->
+<footer class="site-footer">
+  <div class="content-wrap">
+    <img class="footer-logo" src="images/logo_tarkus_text.png" alt="TARKUS">
+    <div class="footer-contact-email">
+      <a href="mailto:info@tarkussimulation.com">info@tarkussimulation.com</a>
+    </div>
+    <div class="footer-meta">TARKUS Simulation · Falmouth, UK · tarkussimulation.com</div>
+  </div>
+</footer>
+
+
+<script>
+  // Intersection Observer for fade-in animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
