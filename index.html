@@ -574,6 +574,22 @@
     }
   }
 
+  /* ── VIDEO ── */
+  .video-block {
+    margin-bottom: 48px;
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+    background: #000;
+  }
+
+  .video-block video {
+    width: 100%;
+    display: block;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+  }
+
   /* ── FADE IN ANIMATION ── */
   .fade-in {
     opacity: 0;
@@ -636,6 +652,13 @@
         <div class="stat-number">Min-Spec</div>
         <div class="stat-label">Austere environment operable</div>
       </div>
+    </div>
+
+    <div class="video-block fade-in">
+      <video controls preload="metadata" poster="images/screenshot_fpv_base.jpg">
+        <source src="tarkus_demo.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
     </div>
 
     <div class="usp-block fade-in">
